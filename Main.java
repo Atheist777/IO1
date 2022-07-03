@@ -9,96 +9,48 @@ public class Main {
 
 
     public static void main(String[] args) {
-
+        String gamesFile = "C:\\Games\\";
         StringBuilder stringBuilder = new StringBuilder();
+        
+        stringBuilder.append(createDir(gamesFile + "src"));
+        stringBuilder.append(createDir(gamesFile + "res"));
+        stringBuilder.append(createDir(gamesFile + "savegames"));
+        stringBuilder.append(createDir(gamesFile + "temp"));
+        stringBuilder.append(createDir(gamesFile + "src\\main"));
+        stringBuilder.append(createDir(gamesFile + "src\\test"));
+        stringBuilder.append(createFile(gamesFile + "src\\main\\Main.java"));
+        stringBuilder.append(createFile(gamesFile + "src\\main\\Utils.java"));
+        stringBuilder.append(createDir(gamesFile + "res\\drawables"));
+        stringBuilder.append(createDir(gamesFile + "res\\vectors"));
+        stringBuilder.append(createDir(gamesFile + "res\\icons"));
+        stringBuilder.append(createFile(gamesFile + "temp\\temp.txt"));
 
-        File dir = new File("C://Games/src");
-         if(dir.mkdir()) {
-             stringBuilder.append(" каталог").append(dir.getName()).append(" создан");
-             stringBuilder.append("/n");
-
-}
-         File dir1 = new File("C://Games/res");
-         if(dir1.mkdir())
-             stringBuilder.append(" каталог").append(dir.getName()).append(" создан");
-             stringBuilder.append("/n");
-
-         File dir2 = new File("C://Games/savegames");
-         if(dir2.mkdir())
-             stringBuilder.append(" каталог").append(dir.getName()).append(" создан");
-             stringBuilder.append("/n");
-
-         File dir3 = new File("C://Games/temp");
-         if(dir3.mkdir())
-             stringBuilder.append(" каталог").append(dir.getName()).append(" создан");
-             stringBuilder.append("/n");
-
-         File srcdir = new File("C://Games/src/main");
-         if(srcdir.mkdir())
-             stringBuilder.append(" каталог").append(dir.getName()).append(" создан");
-             stringBuilder.append("/n");
-
-         File srcdir1 = new File("C://Games/src/test");
-         if(srcdir1.mkdir())
-             stringBuilder.append(" каталог").append(dir.getName()).append(" создан");
-             stringBuilder.append("/n");
-
-         File resdir = new File("C://Games/res/drawables");
-         if(resdir.mkdir())
-             stringBuilder.append(" каталог").append(dir.getName()).append(" создан");
-             stringBuilder.append("/n");
-
-         File resdir1 = new File("C://Games/res/vectors");
-         if(resdir1.mkdir())
-             stringBuilder.append(" каталог").append(dir.getName()).append(" создан");
-             stringBuilder.append("/n");
-
-         File resdir2 = new File("C://Games/res/icons");
-         if(resdir2.mkdir())
-             stringBuilder.append(" каталог").append(dir.getName()).append(" создан");
-             stringBuilder.append("/n");
-
-         File mainFile = new File("C://Games/src/main/Main.java");
-
-         try {
-             if (mainFile.createNewFile())
-                 stringBuilder.append(" файл").append(dir.getName()).append(" создан");
-                 stringBuilder.append("/n");
-         }
-         catch (IOException e){
-             e.getMessage();
-         }
-
-         File mainFile1 = new File("C://Games/src/main/Utils.java");
-
-         try {
-             if(mainFile1.createNewFile())
-                 stringBuilder.append(" файл").append(dir.getName()).append(" создан");
-                 stringBuilder.append("/n");
-         }
-         catch (IOException e){
-             e.getMessage();
-         }
-
-         File tempFile = new File("C://Games/temp/temp.txt");
-
-         try {
-             if(tempFile.createNewFile())
-                 stringBuilder.append(" файл").append(dir.getName()).append(" создан");
-                 stringBuilder.append("/n");
-         }
-         catch (IOException e){
-             e.getMessage();
-         }
-
-        try {
-            FileWriter filewriter = new FileWriter("C://Games/temp/temp.txt");
-            filewriter.write(String.valueOf(stringBuilder));
-            filewriter.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
+        try (FileWriter writer = new FileWriter(gamesFile + "temp\\temp.txt", false)) {
+            writer.write(String.valueOf(stringBuilder));
+            writer.flush();
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
         }
-        System.out.println(stringBuilder);
+    }
+
+    public static String createDir(String dirLink) {
+        File dir = new File(dirLink);
+        if (dir.mkdir()) {
+            return dir.getName() + " - Каталог создан" + "\n";
+        } else return dir.getName() + " - Каталог создать не удалось" + "\n";
+    }
+
+    public static String createFile(String fileLink) {
+        File file = new File(fileLink);
+        try {
+            if (file.createNewFile())
+                return file.getName() + " - Файл создан" + "\n";
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return file.getName() + " - Файл создать не удалось" + "\n";
+
+
 
     }
 }
